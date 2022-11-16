@@ -1,0 +1,29 @@
+<!-- JINJA2  -->
+{% with messages = get_flashed_messages() %}
+{% if message %}
+{% for message in messages %}
+    <p>{{message}}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<form class="form" action="/add_contact" method="POST">
+    <!-- motor de plantillas JINJA 2= HTML mas funcionalidades, pero se traduce a HTML -->
+    <input type="text" name="name"  placeholder="Nombre" />
+    <input type="tel" name="phone" placeholder="Telefono" />
+    <input type="email" name="email" placeholder="Email" />
+    <button type="submit">
+        Guardar
+    </button>
+</form>
+<table>
+    <thead>
+        <tr>
+        <td> Nombre </td>
+        <td> Telefono </td>
+        <td> Email </td>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
