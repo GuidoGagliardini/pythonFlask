@@ -25,11 +25,8 @@ def Index():
 def add_contact():
    if request.method == "POST" :
     fullname = request.form['name']
-    print("🚀 ~ file: App.py ~ line 20 ~ fullname", fullname)
     phone = request.form['phone']
-    print("🚀 ~ file: App.py ~ line 22 ~ phone", phone)
     email = request.form['email']
-    print("🚀 ~ file: App.py ~ line 24 ~ email", email)
     
     # cursor ejecuta consultas sql
     cursor = mysql.connection.cursor()
