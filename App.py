@@ -18,9 +18,8 @@ def Index():
     cursor = mysql.connection.cursor()
     cursor.execute('select * from contacts')
     data = cursor.fetchall()
-    print(data)
     # devuelve una tupla()
-    return render_template('index.html')
+    return render_template('index.html', contacts = data)
 @app.route('/add_contact',methods=['POST'])
 def add_contact():
    if request.method == "POST" :
@@ -34,14 +33,42 @@ def add_contact():
     mysql.connection.commit()
     flash('Contacto Agregado')
     return redirect(url_for('Index'))
+# no hace falta marcar el tipo de datos por parametros
+@app.route('/edit/<id>')
+def get_contact(id):
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * from contacts where id=%s',[id])
+    data = cursor.fetchall()
+    print("🚀 ~ file: App.py ~ line 44 ~ data", data)
+    return render_template('edit-contact.html', singleContac = data[0])
 
-@app.route('/edit')
-def edit_contact():
-    return 'edit'
-@app.route('/delete')
-def delete_contact():
-    return 'delete'
-
+@app.route('/delete/<string:id>')
+def delete_contact(id):
+    cursor = mysql.connection.cursor()
+    # aca paso la consulta con id ={0} que corresponde al indice de la tupla, del dato que vamos a reemplazar 
+    # y con format el id lo formateo a string 
+    cursor.execute('DELETE from contacts where id={0}'.format(id))
+    mysql.connection.commit()
+    flash('CONTACTO ELIMINADO')
+    return redirect(url_for('Index'))
+@app.route('/update_contac/<id>', methods = ['POST'])
+def update_contac(id):
+    if request.method == "POST":
+        fullname = request.form['name']
+        phone = request.form['phone']
+        email = request.form['email']
+    cursor = mysql.connection.cursor()
+    cursor.execute("""
+        UPDATE contacts
+        SET fullname = %s,
+            phone = %s,
+            email = %s
+        WHERE id = %s
+    """,(fullname,phone,email,id))
+    mysql.connection.commit()
+    flash("UPDATE CONTACT")
+    # %s es para pasar un STRING
+    return redirect(url_for('Index'))
 
 # cada vez que un usuario entre a nuestra raiz ('/') de la app ingresa al slash que le marcamos
 if __name__  == '__main__':

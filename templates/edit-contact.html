@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="col-md offset md-4">
+    <div class="card card-body">
+        <form class="form-group" action="/update_contac/{{singleContac.0}}" method="POST">
+            <!-- motor de plantillas JINJA 2= HTML mas funcionalidades, pero se traduce a HTML -->
+            <input class="form-control" type="text" name="name"  placeholder="Nombre" value="{{singleContac.1}}"/>
+            <input class="form-control" type="tel" name="phone" placeholder="Telefono" value="{{singleContac.2}}"/>
+            <input class="form-control" type="email" name="email" placeholder="Email" value="{{singleContac.3}}"/>
+            <div class="form-group">
+                <button class="btn btn-block mt-2 offset md-4" type="submit">
+                    Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
